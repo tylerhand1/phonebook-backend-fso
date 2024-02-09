@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for phonebook-backend-fso-thand on 2024-02-08T15:36:40-07:00
+# fly.toml app configuration file generated for phonebook-fso-thand on 2024-02-08T17:03:39-07:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'phonebook-backend-fso-thand'
+app = 'phonebook-fso-thand'
 primary_region = 'ord'
 
 [build]
