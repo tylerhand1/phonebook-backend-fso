@@ -45,7 +45,7 @@ app.get('/api/persons', (req, res) => {
     })
 })
 
-app.get('/api/persons/:id', (req, res) => {
+app.get('/api/persons/:id', (req, res, next) => {
     Contact.findById(req.params.id)
         .then(contact => {
             if (contact) {
@@ -54,6 +54,7 @@ app.get('/api/persons/:id', (req, res) => {
                 res.status(404).end()
             }
         })
+        .catch(error => next(error))
 })
 
 app.get('/info', (req, res) => {
