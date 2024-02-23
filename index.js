@@ -39,10 +39,6 @@ morgan.token('body', req => {
 
 app.use(morgan(':method :url :status :res[content-length] :response-time ms :body'))
 
-const generateId = () => {
-    return Math.floor(Math.random() * 100000)
-}
-
 app.get('/api/persons', (req, res) => {
     Contact.find({}).then(contacts => {
         res.json(contacts)
