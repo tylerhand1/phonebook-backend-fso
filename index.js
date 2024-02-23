@@ -46,19 +46,25 @@ app.get('/api/persons', (req, res) => {
 })
 
 app.get('/api/persons/:id', (req, res) => {
-    Contact.findById(req.params.id).then(contact => {
-        res.json(contact)
-    })
+    Contact.findById(req.params.id)
+        .then(contact => {
+            if (contact) {
+                res.json(contact)
+            } else {
+                res.status(404).end()
+            }
+        })
 })
 
 app.get('/info', (req, res) => {
-    const personCount = persons.length
-
-    res.send(`
-        Phonebook has info for ${personCount} people
-        <br>
-        ${new Date().toString()}
-    `)
+    Contact.find({})
+        .then(result => {
+            res.send(`
+            Phonebook has info for ${result.length} people
+            <br>
+            ${new Date().toString()}
+            `)
+        })
 })
 
 app.post('/api/persons', (req, res) => {
@@ -68,14 +74,7 @@ app.post('/api/persons', (req, res) => {
             error: 'content missing'
         })
     }
-
-    const personFound = persons.find(p => p.name === body.name)
-    if (personFound) {
-        res.status(409).json({
-            error: 'name must be unique'
-        })
-    }
-
+    
     const contact = new Contact({
         name: body.name,
         number: body.number,
