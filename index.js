@@ -80,14 +80,14 @@ app.post('/api/persons', (req, res) => {
         })
     }
 
-    const person = {
+    const contact = new Contact({
         name: body.name,
         number: body.number,
-        id: generateId(),
-    }
+    })
 
-    persons = persons.concat(person)
-    res.json(person)
+    contact.save().then(savedContact => {
+        res.json(savedContact)
+    })
 })
 
 app.delete('/api/persons/:id', (req, res) => {
