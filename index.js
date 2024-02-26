@@ -68,27 +68,29 @@ app.get('/info', (req, res) => {
         })
 })
 
-app.post('/api/persons', (req, res) => {
+app.post('/api/persons', (req, res, next) => {
     const body = req.body
     if (!body.name || !body.number) {
         return res.status(400).json({
             error: 'content missing'
         })
     }
-    
+
     const contact = new Contact({
         name: body.name,
         number: body.number,
     })
 
-    contact.save().then(savedContact => {
-        res.json(savedContact)
-    })
+    contact.save()
+        .then(savedContact => {
+            res.json(savedContact)
+        })
+        .catch(error => next(error))
 })
 
 app.put('/api/persons/:id', (req, res, next) => {
     const body = req.body
-    if(!body.name || !body.number) {
+    if (!body.name || !body.number) {
         return res.status(400).json({
             error: 'content missing'
         })
@@ -98,7 +100,7 @@ app.put('/api/persons/:id', (req, res, next) => {
         number: body.number,
     }
 
-    Contact.findByIdAndUpdate(req.params.id, contact, {new: true})
+    Contact.findByIdAndUpdate(req.params.id, contact, { new: true })
         .then(updatedContact => {
             if (updatedContact) {
                 res.json(updatedContact)
@@ -132,6 +134,8 @@ const errorHandler = (err, req, res, next) => {
 
     if (err.name === 'CastError') {
         return res.status(400).send({ error: 'malformatted id' })
+    } else if (err.name === 'ValidatorError') {
+        return res.status(400).send({ error: err.message })
     }
 
     next(err)
