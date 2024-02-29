@@ -7,7 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "build:ui": "rm -rf dist && cd ~/repos/full_stack_open/part2/phonebook && npm run build && cp -r dist ~/repos/phonebook-backend-fso && cd -"
+    "build:ui": "rm -rf dist && cd ~/repos/full_stack_open/part2/phonebook && npm run build && cp -r dist ~/repos/phonebook-backend-fso && cd -",
+    "deploy": "/home/tyler/.fly/bin/flyctl deploy",
+    "deploy:full": "npm run build:ui && npm run deploy"
   },
   "keywords": [],
   "author": "",
